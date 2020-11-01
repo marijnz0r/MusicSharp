@@ -2,6 +2,7 @@
 // Licensed under the GNU GPL v3 License. See LICENSE in the project root for license information.
 // </copyright>
 
+using System.Runtime.InteropServices;
 using MusicSharp;
 
 /// <summary>
@@ -14,8 +15,18 @@ public class Program
     /// </summary>
     public static void Main()
     {
-        // Start MusicSharp.
-        IPlayer player = new WinPlayer();
+        bool isWindows = System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
+        IPlayer player;
+
+        if (isWindows)
+        {
+            player = new WinPlayer();
+        } 
+        else
+        {
+            player = new LinuxPlayer();
+        } 
 
         Gui gui = new Gui(player);
         gui.Start();
